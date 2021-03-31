@@ -1,0 +1,33 @@
+<div id="body" class="container">
+  <div class="container row" *ngIf="projetFormGroup">
+    <div class="offset-3 col-lg-6">
+      <form [formGroup]="projetFormGroup">
+        <fieldset>
+          <legend>Nouveau projet</legend>
+        <div class="form-group">
+          <label class="form-label">Titre</label>
+          <input class="form-control" formControlName="titre"
+                 [ngClass]="{'is-invalid':submitted && projetFormGroup.controls.titre.errors}">
+          <div *ngIf="submitted && projetFormGroup.controls.titre.errors">
+            <div *ngIf="projetFormGroup.controls.titre.errors.required">Entrer un titre à votre projet</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" formControlName="description"
+                    [ngClass]="{'is-invalid':submitted && projetFormGroup.controls.description.errors}">
+        </textarea>
+          <div *ngIf="submitted && projetFormGroup.controls.description.errors">
+            <div *ngIf="projetFormGroup.controls.description.errors.required">
+              Entrer une descption de vôtre projet
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button (click)="onSaveProjet()" class="btn btn-outline-info">Save</button>
+        </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

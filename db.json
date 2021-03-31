@@ -1,0 +1,104 @@
+{
+  "projets": [
+    {
+      "id": 1,
+      "titre": "Projet informatique",
+      "description": "Application Web Front End exploitant les ressources d'un web service basé sur le protocle REST\n\nNous utilisons les ressources de notre projet e-commerce partie 2 pour developper une partie front-end avec le framwork Angular\n\nl'object du projet est d'apprendre le framwork angular:\n\nInstallation de l'environnement\nConstruire notre application de bout en bout\n",
+      "taches": [
+        {
+          "intitule": "phase initiale",
+          "duree": 33002
+        },
+        {
+          "intitule": "environnement de travail",
+          "duree": 3
+        },
+        {
+          "intitule": "phase de développement",
+          "duree": 4
+        },
+        {
+          "intitule": "phase de test",
+          "duree": 3
+        },
+        {
+          "intitule": "phase deploiment",
+          "duree": 72001
+        }
+      ],
+      "temps": 106015
+    },
+    {
+      "id": 2,
+      "titre": "Datawarehouse",
+      "description": "Création d'un entrepôt de données cas particulier",
+      "taches": [
+        {
+          "intitule": "defniir l'obectif de Dw",
+          "duree": 1
+        },
+        {
+          "intitule": "definir les sources de données",
+          "duree": 2
+        },
+        {
+          "intitule": "Mise en place du Datawarehouse",
+          "duree": 2
+        },
+        {
+          "intitule": "exploitation des données",
+          "duree": 2
+        }
+      ],
+      "temps": 7
+    },
+    {
+      "id": 3,
+      "titre": "application e-commerce",
+      "description": "développement d'une application web de e-commerce",
+      "taches": [
+        {
+          "intitule": "essais",
+          "duree": 1210981245
+        },
+        {
+          "intitule": "mise en place",
+          "duree": 1211051335
+        },
+        {
+          "intitule": "déploiement",
+          "duree": 1211059335
+        }
+      ],
+      "temps": 1211059335
+    },
+    {
+      "id": 4,
+      "titre": "web front end",
+      "description": "développement d'une application web front avec angular 11",
+      "taches": [
+        {
+          "intitule": "rédaction des objrctifs metiers",
+          "duree": 3
+        },
+        {
+          "intitule": "ssssss",
+          "duree": 0
+        }
+      ],
+      "temps": 3
+    },
+    {
+      "titre": "Application de Ticketing",
+      "description": "application de gestion de ticket d'incident ",
+      "taches": [
+        {
+          "intitule": "définition des objectifs métier",
+          "duree": 0
+        }
+      ],
+      "temps": 0,
+      "id": 5
+    }
+  ]
+}

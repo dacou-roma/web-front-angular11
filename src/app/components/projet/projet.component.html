@@ -1,0 +1,44 @@
+<div id="body">
+  <div class="container mt-2 " *ngIf="currentProjet">
+    <div class="row">
+      <div class="col-xl-6 card p-2" id="description">
+        <h2 id="titre-projet" class="card-header text-center text-uppercase">{{currentProjet.titre}}</h2>
+        <p class="card-body text-justify">{{currentProjet.description}}</p>
+      </div>
+      <div class="col-xl-6" id="list-tache" >
+        <h3 class="text-uppercase text-center">Taches</h3>
+        <ng-container *ngIf="currentProjet.taches.length==0">
+          <ng-container class="card">
+            <ng-container class="card-body">
+              Aucune tache enregistrée pour ce projet <a class="" routerLink="/newTache">nouvelle tache</a>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <ul class="list-group bd-callout bd-callout-info" *ngFor="let curr_tache of currentProjet.taches; let index = index;">
+          <li class="list-group-item">
+            <div class="list-group-item-heading d-flex">
+              {{currentTache}}
+              <span class="font-monospace fw-bold">Intitulé de la tache: </span><span class="text-center text-uppercase">{{curr_tache.intitule}}</span>
+            </div>
+            <div class="list-group-item-text d-flex justify-content-between">
+              <span class="font-monospace fw-bold">Durée d'exécution: </span>
+              <div class="d-inline-block">
+                <span class="badge bg-success p-2 me-2">{{curr_tache.duree| date:'hh:mm:ss '}}</span>
+                <button (click)="onStart(curr_tache, currentProjet)" class="btn btn-sm btn-outline-info">{{button_status}}</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="list-group-heading d-flex justify-content-between">
+              <span class="font-monospace fw-bold">Temps Global :</span><span class="badge bg-success p-2">{{currentProjet.temps | date:'hh:mm:ss'}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+

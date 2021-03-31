@@ -1,0 +1,27 @@
+<div id="body" class="container">
+  <div class="container row" *ngIf="formGroupTache">
+    <div class="offset-3 col-lg-6">
+      <form [formGroup]="formGroupTache" >
+        <fieldset>
+          <legend>Ajout de ouveau Projet</legend>
+          <div class="form-group">
+            <label class="form-label">Nom Projet</label>
+            <select class="form-control" formControlName="projet">
+              <option [ngValue]="null" disabled selected>---Choisir le projet---</option>
+              <option *ngFor="let projet of listProjet" [ngValue]="projet">
+                {{projet.titre}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Intitulé</label>
+            <input class="form-control" formControlName="intitule" type="text">
+          </div>
+          <div class="form-group">
+            <button class="btn btn-outline-info" (click)="onCreateTache()">Create</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
