@@ -24,6 +24,10 @@
         {
           "intitule": "phase deploiment",
           "duree": 72001
+        },
+        {
+          "intitule": "phase initiale",
+          "duree": 0
         }
       ],
       "temps": 106015
@@ -94,10 +98,10 @@
       "taches": [
         {
           "intitule": "définition des objectifs métier",
-          "duree": 0
+          "duree": 2000
         }
       ],
-      "temps": 0,
+      "temps": 2000,
       "id": 5
     }
   ]

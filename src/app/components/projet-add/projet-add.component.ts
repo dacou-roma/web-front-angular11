@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProjetsService} from "../../../services/projets.service";
 import {Router} from "@angular/router";
+import {ProjectServiceFirebase} from "../../../services/service.firebase";
+import {Project} from "../../models/project.model";
+import {ServiceFirestore} from "../../../services/service.firestore";
 
 @Component({
   selector: 'app-projet-add',
@@ -11,26 +14,30 @@ import {Router} from "@angular/router";
 export class ProjetAddComponent implements OnInit {
   projetFormGroup?:FormGroup;
   submitted: boolean=false;
-  constructor(private formBuilder:FormBuilder, private service:ProjetsService,private router:Router) { }
+  constructor(private formBuilder:FormBuilder, private router:Router,private firesToreService:ServiceFirestore) { }
 
   ngOnInit(): void {
     this.projetFormGroup = this.formBuilder.group({
       titre:["", Validators.required],
       description:["",Validators.required],
       taches:[[]],
-      temps:[0]
+      temps:[0],
+      keyword:[[]]
     });
   }
   onSaveProjet() {
     this.submitted = true;
     if(this.projetFormGroup?.invalid) return;
-    this.service.save(this.projetFormGroup?.value).subscribe(
-      data=>{
-        alert("Nouveau projet" + this.projetFormGroup?.value.intitule + " ajouté avec suusces");
-        this.router.navigateByUrl('/projets');
-      },error => {
-        alert(error.message);
-      }
-    );
+    const projectId = this.firesToreService.afs.createId();
+    const keywords = this.firesToreService.generateKeyWords(this.projetFormGroup?.value.titre.toLowerCase());
+    let project: Project = {
+      id:projectId,
+      titre: this.projetFormGroup?.value.titre,
+      description: this.projetFormGroup?.value.description,
+      taches: this.projetFormGroup?.value.taches,
+      temps:this.projetFormGroup?.value.temps,
+      keywords: keywords
+    }
+    this.firesToreService.saveProject(project,projectId);
   }
 }

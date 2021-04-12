@@ -1,14 +1,14 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../environments/environment";
 import {Observable} from "rxjs";
 import {Projet, tache} from "../app/models/projet.model";
-
+import {environment} from "../environments/environment";
+import {Project} from "../app/models/project.model";
 
 @Injectable({providedIn:"root"})
 export class ProjetsService{
-  constructor(private http: HttpClient) {
-  }
+
+  constructor(private http: HttpClient) {}
   //methode
   getAllProjets():Observable<Projet[]>{
     //simpler a error with Math.random
@@ -38,22 +38,8 @@ export class ProjetsService{
     projet.taches.push(tache);
     projet.temps +=tache.duree;
   }
-  upDate(projet:Projet):Observable<Projet>{
+  upDate(projet:Project):Observable<Projet>{
     let host = environment.host;
     return this.http.put<Projet>(host+"/projets/" + projet.id, projet);
   }
-
-  /*
-  saveTache(tache:tache, projet:Projet):Observable<Projet>{
-    let host = environment.host;
-    let currentProjet:Projet;
-    this.http.get<Projet>(host + "/projets/" + projet.id).subscribe(
-      data=>{
-        currentProjet = data;
-        this.addTache(tache,currentProjet);
-        return this.http.put<Projet>(host + "/projets/" + currentProjet.id, currentProjet);
-      }
-    )
-  }
-   */
 }

@@ -10,8 +10,8 @@ import {EditFormComponent} from "./components/edit-form/edit-form.component";
 const routes: Routes = [
   {path:"projets", component:ProjetsComponent},
   {path:"accueil", component:HomeComponent},
-  {path:"projet/:id",component:ProjetComponent},
-  {path:"editProjet/:id",component:EditFormComponent},
+  {path:"projet",component:ProjetComponent},
+  {path:"editProjet",component:EditFormComponent},
   {path:"newTache",component:TacheAddingComponent},
   {path:"newProjet",component:ProjetAddComponent}
 ];

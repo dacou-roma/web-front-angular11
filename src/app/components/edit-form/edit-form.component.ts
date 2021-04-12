@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {ProjetsService} from "../../../services/projets.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Projet} from "../../models/projet.model";
+import {ServiceFirestore} from "../../../services/service.firestore";
+import {error} from "@angular/compiler/src/util";
 
 @Component({
   selector: 'app-edit-form',
@@ -11,35 +13,35 @@ import {Projet} from "../../models/projet.model";
 })
 export class EditFormComponent implements OnInit {
 editFormGroup?:FormGroup;
-currentProjet?:Projet;
-  constructor(private service: ProjetsService,private formBuilder:FormBuilder, private route:ActivatedRoute,private router:Router) { }
+currentProjet:Projet;
+  constructor(private fireStoreService: ServiceFirestore,private formBuilder:FormBuilder, private route:ActivatedRoute,private router:Router) {
+    this.currentProjet =this.router.getCurrentNavigation()?.extras?.state?.value;
+  }
 
   ngOnInit(): void {
-    this.service.getProjetById(this.route.snapshot.params.id).subscribe(data=>{
-      this.currentProjet = data;
-      this.editFormGroup = this.formBuilder.group({
-        id:[this.currentProjet.id],
-        titre:[this.currentProjet?.titre],
-        description:[this.currentProjet?.description],
-        taches:[this.currentProjet?.taches],
-        temps:[this.currentProjet?.temps]
-      });
+    this.editFormGroup = this.formBuilder.group({
+      id:[this.currentProjet?.id],
+      titre:[this.currentProjet?.titre],
+      description:[this.currentProjet?.description],
+      taches:[this.currentProjet?.taches],
+      temps:[this.currentProjet?.temps]
     });
-
   }
   onEdit() {
     if(this.editFormGroup?.invalid) return;
+    const keywords = this.fireStoreService.generateKeyWords(this.editFormGroup?.value.titre.toLowerCase());
     let p = {
       "id":this.editFormGroup?.value.id,
       "titre":this.editFormGroup?.value.titre,
       "description":this.editFormGroup?.value.description,
       "taches":this.editFormGroup?.value.taches,
-      "temps":this.editFormGroup?.value.temps
+      "temps":this.editFormGroup?.value.temps,
+      "keywords": this.editFormGroup?.value.keywords ? this.editFormGroup?.value.keywords : keywords
     }
-    this.service.upDate(p).subscribe(data=>{
-      alert(' le projet ' + this.editFormGroup?.value.titre + ' mmis a jour avec succès');
-      this.router.navigateByUrl('/projets');
-    },error => {
+    this.fireStoreService.saveProject(p,p.id).then(data=>{
+      alert(' le projet ' + data.titre + ' mmis à jour avec succès');
+      this.router.navigate(['projets']);
+    },error=>{
       alert(error.message);
     });
   }

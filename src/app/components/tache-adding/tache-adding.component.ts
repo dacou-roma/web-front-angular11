@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Projet, tache} from "../../models/projet.model";
+import {tache} from "../../models/projet.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ProjetsService} from "../../../services/projets.service";
 import {Router} from "@angular/router";
+import {ServiceFirestore} from "../../../services/service.firestore";
+import {Project} from "../../models/project.model";
 
 @Component({
   selector: 'app-tache-adding',
@@ -11,38 +12,29 @@ import {Router} from "@angular/router";
 })
 export class TacheAddingComponent implements OnInit {
   tache?: tache
-  listProjet?: Projet[];
+  listProject?: Project[];
   formGroupTache?: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private service: ProjetsService,private router:Router) {
+  constructor(private fireStoreService:ServiceFirestore,private formBuilder: FormBuilder,private router:Router) {
   }
 
   ngOnInit(): void {
     this.formGroupTache = this.formBuilder.group({
       intitule: ["", Validators.required],
-      projet: [null, [Validators.required]],
+      project: [null, [Validators.required]],
       duree: [0]
     });
-    this.service.getAllProjets().subscribe(
-      data => {
-        this.listProjet = data;
-      },error => {
-        alert(error.message);
-      }
-    );
+    this.fireStoreService.projects?.subscribe(data=>{
+      this.listProject = data;
+    });
   }
+  addTache(){
+    let tacheId = this.fireStoreService.afs.createId();
+    const t = {"id":tacheId,"intitule":this.formGroupTache?.value.intitule,"duree":this.formGroupTache?.value.duree};
 
-  onCreateTache() {
-    this.service.getProjet(this.formGroupTache?.value.projet).subscribe(data=>{
-      this.service.addTache({"intitule":this.formGroupTache?.value.intitule,"duree":this.formGroupTache?.value.duree},this.formGroupTache?.value.projet);
-      this.service.upDate(this.formGroupTache?.value.projet).subscribe(data=>{
-        alert("le projet"+ this.formGroupTache?.value.projet.titre+ "a été mis à jour avec succès!!!");
-        this.router.navigateByUrl('/projets');
-      },error => {
-        alert(error.message);
-      });
-    })
-
+    this.fireStoreService.createTeaches(t,this.formGroupTache?.value.project).then(project=>{
+      alert('nouvelle tache: ' + ' ' + project + 'ajouté avec succès!!!');
+      this.router.navigateByUrl('/projets');
+    });
   }
-
 }
