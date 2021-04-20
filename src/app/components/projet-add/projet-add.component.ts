@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ProjetsService} from "../../../services/projets.service";
 import {Router} from "@angular/router";
-import {ProjectServiceFirebase} from "../../../services/service.firebase";
 import {Project} from "../../models/project.model";
 import {ServiceFirestore} from "../../../services/service.firestore";
 
@@ -39,5 +37,13 @@ export class ProjetAddComponent implements OnInit {
       keywords: keywords
     }
     this.firesToreService.saveProject(project,projectId);
+    setTimeout(function (){
+      alert('nouveau projet ajouté avec succès');
+    },3000)
+    this.router.navigate(['projets']);
+  }
+
+  onCancel() {
+    this.router.navigate(['projets']);
   }
 }

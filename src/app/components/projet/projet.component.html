@@ -12,24 +12,16 @@
         </ng-container>
       </ng-container>
     </ng-container>
-    <ul class="list-group bd-callout bd-callout-info" *ngFor="let curr_tache of curr_project.taches; let index = index;">
-      <li class="list-group-item">
-        <div class="list-group-item-heading d-flex">
-          <span class="font-monospace fw-bold">Intitulé de la tache: </span><span class="text-center text-uppercase">{{curr_tache.intitule}}</span>
-        </div>
-        <div class="list-group-item-text d-flex justify-content-between">
-          <span class="font-monospace fw-bold">Durée d'exécution: </span>
-          <div class="d-inline-block">
-            <span class="badge bg-success p-2 me-2">{{curr_tache.duree| date:'hh:mm:ss '}}</span>
-            <button (click)="onStart(curr_tache, curr_project)" class="btn btn-sm btn-outline-info">{{button_status}}</button>
-          </div>
-        </div>
-      </li>
+    <ul class="list-group bd-callout bd-callout-info">
+      <app-project-spot [spotInput]="curr_tache"
+                        [projectInput]="curr_project"
+                        *ngFor="let curr_tache of curr_project.taches; let i = index;">
+      </app-project-spot>
     </ul>
     <ul class="list-group">
       <li class="list-group-item">
         <div class="list-group-heading d-flex justify-content-between">
-          <span class="font-monospace fw-bold">Temps Global :</span><span class="badge bg-success p-2">{{curr_project.temps | date:'hh:mm:ss'}}</span>
+          <span class="font-monospace fw-bold">Temps Global :</span><span class="badge bg-success p-2" [class.bg-warning]="statusSpot">{{curr_project.temps | date:'hh:mm:ss'}}</span>
         </div>
       </li>
     </ul>

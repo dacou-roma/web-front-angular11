@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable, of} from "rxjs";
-import {AppDataState, typeState} from "../../state/projet.state";
+import {ActionEvent, AppDataState, typeEvent, typeState} from "../../state/projet.state";
 import {catchError, map, startWith} from "rxjs/operators";
 import {NavigationExtras, Router} from "@angular/router";
 import {Project} from "../../models/project.model";
 import {ServiceFirestore} from "../../../services/service.firestore";
 import firebase from "firebase";
 import firestore = firebase.firestore;
+import {EventDriverService} from "../../../services/eventDriver.service";
 
 
 @Component({
@@ -21,17 +22,21 @@ export class ProjetsComponent implements OnInit {
   asObservableProject?:Observable<Project[]>;
   listSearchSubject = new BehaviorSubject<Project[]>([]);
   list:Project[] = [];
-
   navigationExtras:NavigationExtras = {
     state:{
       value:null
     }
   };
-  constructor(private fireStoreService:ServiceFirestore, private router:Router) {
+  constructor(
+    private fireStoreService:ServiceFirestore, private router:Router,
+    private eventDriverService:EventDriverService) {
   }
 
   ngOnInit(): void {
     this.asObservableProject = this.listSearchSubject.asObservable();
+    this.eventDriverService.eventObserver.subscribe(actionEvent=>{
+      this.onActionEvent(actionEvent);
+    })
   }
 
   setListsearch(searchList:Project[]) {
@@ -80,36 +85,24 @@ export class ProjetsComponent implements OnInit {
     }
     this.router.navigate(['editProjet'],this.navigationExtras);
   }
-  /*
-  //methode fireBase
-    getCustomersListProject() {
-      this.fireBaseService.getlistProject().snapshotChanges().pipe(
-        map(changes =>changes.map(c => ({
-              ...c.payload.val()
-            })
-          )
-        )
-      ).subscribe(data=>{
-        this.customListProject = data;
-      })
+  onActionEvent($event: ActionEvent) {
+    switch ($event.type) {
+      case typeEvent.GET_ALL_PROJECTS:
+        this.onGetAllProjets();
+        break;
+      case typeEvent.NEW_PROJECT:
+        this.onNewProjet();
+        break;
+      case typeEvent.NEW_SPOT:
+        this.onNewTache();
+        break;
+      case typeEvent.SEARCH_PROJECTS:
+        this.recherche($event.data);
+        break;
+      case typeEvent.VIEW_DETAIL:this.onViewDetail($event.data);
+      break;
+      case typeEvent.EDIT_PROJECT:this.onEditProjet($event.data);
     }
-   */
-  /*
-        //Methodes json server
-  this.projets$ = this.service.getAllProjets().pipe(
-    map(data=>({dataState:typeState.LOADED, data:data})),
-    catchError(err => of({dataState:typeState.ERROR,errorMessage:err.message})),
-    startWith({dataState:typeState.LOADING})
-  );
-   */
-  /*
-    onSearch(formData: any) {
-      this.projets$ = this.service.searchProjets(formData.keyword).pipe(
-        map(data=>({dataState:typeState.LOADED, data:data})),
-        catchError(err => of({dataState:typeState.ERROR,errorMessage:err.message})),
-        startWith({dataState:typeState.LOADING})
-      );
-    }
+  }
 
-     */
 }

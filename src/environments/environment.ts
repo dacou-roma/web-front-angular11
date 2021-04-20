@@ -2,6 +2,9 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import {Observable} from "rxjs";
+import {Project} from "../app/models/project.model";
+
 export const environment = {
   production: false,
   host:"http://localhost:3000",
@@ -14,7 +17,7 @@ export const environment = {
     storageBucket: "web-front-angular.appspot.com",
     messagingSenderId: "491500581592",
     appId: "1:491500581592:web:aea82170cda54fdcce1dad",
-    measurementId: "G-85YEVR24MM"
+    measurementId: "G-85YEVR24MM",
   }
 };
 

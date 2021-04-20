@@ -2,6 +2,7 @@ export interface spot{
   id:string;
   intitule:string;
   duree:number;
+  spotStatus:boolean;
 }
 export interface Project{
   id:string;

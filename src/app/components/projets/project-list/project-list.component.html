@@ -1,0 +1,21 @@
+<ng-container class="col-sm-12" *ngIf="projectsInput$ | async as result" [ngSwitch]="result.dataState">
+  <ng-container *ngSwitchCase="type.LOADING">
+    <div class="btn btn-primary" disabled>
+      <span class="spinner-border spinner-border-sm"></span>
+      Loading..
+    </div>
+  </ng-container>
+  <ng-container *ngSwitchCase="type.ERROR">
+    <div class="col-12 text-center">
+      <div class="alert alert-danger">
+        {{result.errorMessage}}
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngSwitchCase="type.LOADED">
+    <div class="container">
+      <app-project-item [projectItem]="item"class="btn-sm row bg-light mb-2 bd-callout bd-callout-info" *ngFor="let item of result.data;let index=index">
+      </app-project-item>
+    </div>
+  </ng-container>
+</ng-container>

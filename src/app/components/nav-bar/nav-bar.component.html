@@ -16,5 +16,8 @@
           </li>
         </ul>
       </div>
+      <div class="img-thumbnail bg-warning" *ngIf="targetSpot && statusChrono">
+       {{targetSpot.duree|date:'hh:mm:ss'}}
+      </div>
   </div>
 </nav>

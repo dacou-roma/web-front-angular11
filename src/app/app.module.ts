@@ -17,6 +17,10 @@ import {AngularFireModule} from "@angular/fire";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {AngularFireDatabaseModule} from "@angular/fire/database";
 import {environment} from "../environments/environment";
+import { NavComponentComponent } from './components/projets/nav-component/nav-component.component';
+import { ProjectListComponent } from './components/projets/project-list/project-list.component';
+import { ProjectItemComponent } from './components/projets/project-list/project-item/project-item.component';
+import { ProjectSpotComponent } from './components/projet/project-spot/project-spot.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import {environment} from "../environments/environment";
     ProjetAddComponent,
     FooterComponent,
     TacheAddingComponent,
-    EditFormComponent
+    EditFormComponent,
+    NavComponentComponent,
+    ProjectListComponent,
+    ProjectItemComponent,
+    ProjectSpotComponent
   ],
   imports: [
     BrowserModule,

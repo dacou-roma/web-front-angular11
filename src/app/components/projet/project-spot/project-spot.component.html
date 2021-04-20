@@ -1,0 +1,14 @@
+<li class="list-group-item" *ngIf="spotInput && projectInput">
+  <div class="list-group-item-heading d-flex">
+    <span class="font-monospace fw-bold">Intitulé de la tache: </span><span class="text-center text-uppercase">{{spotInput.intitule}}</span>
+  </div>
+  <div class="list-group-item-text d-flex justify-content-between" [class.btn-outline-warning]="spotInput.spotStatus">
+    <span class="font-monospace fw-bold" *ngIf="!spotInput.spotStatus">Durée d'exécution: </span>
+    <span class="font-monospace fw-bold" *ngIf="spotInput.spotStatus">En cours d'exécution...</span>
+    <div class="d-inline-block">
+      <span class="badge bg-success p-2 me-2" [class.bg-warning]="spotInput.spotStatus">{{spotInput.duree| date:'hh:mm:ss '}}</span>
+      <button (click)="onStart(spotInput, projectInput)" class="btn btn-sm btn-outline-success"  *ngIf="!spotInput.spotStatus">START</button>
+      <button (click)="onStart(spotInput, projectInput)" class="btn btn-sm btn-outline-warning" *ngIf="spotInput.spotStatus">STOP</button>
+    </div>
+  </div>
+</li>

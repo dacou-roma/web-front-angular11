@@ -39,10 +39,15 @@ currentProjet:Projet;
       "keywords": this.editFormGroup?.value.keywords ? this.editFormGroup?.value.keywords : keywords
     }
     this.fireStoreService.saveProject(p,p.id).then(data=>{
-      alert(' le projet ' + data.titre + ' mmis à jour avec succès');
+      setTimeout(function (){
+        alert(' le projet ' + data.titre + ' mmis à jour avec succès');
+      },3000)
       this.router.navigate(['projets']);
     },error=>{
       alert(error.message);
     });
+  }
+  onCancel() {
+    this.router.navigate(['projets']);
   }
 }

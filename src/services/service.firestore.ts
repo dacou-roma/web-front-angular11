@@ -9,7 +9,9 @@ import {Injectable} from "@angular/core";
 export class ServiceFirestore{
   projects?:Observable<Project[]>;
   private dataCollection:AngularFirestoreCollection<Project>;
+  project?:Observable<Project>;
   pathCollection = 'projets';
+  targetSpot?: spot | null;
 
   constructor(readonly afs:AngularFirestore) {
     this.dataCollection = this.afs.collection<Project>(this.pathCollection);
@@ -19,6 +21,11 @@ export class ServiceFirestore{
   private getlistProject(){
     this.projects = this.dataCollection.snapshotChanges().pipe(
       map(actions=>actions.map(c=>c.payload.doc.data() as Project))
+    );
+  }
+  getcurrProject(path:string){
+    this.project = this.dataCollection.doc(path).snapshotChanges().pipe(
+      map(value => value.payload.data() as Project)
     );
   }
   saveProject(project:Project,projectId:string):Promise<Project>{

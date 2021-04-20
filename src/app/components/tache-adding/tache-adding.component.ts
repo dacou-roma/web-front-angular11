@@ -3,7 +3,7 @@ import {tache} from "../../models/projet.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {ServiceFirestore} from "../../../services/service.firestore";
-import {Project} from "../../models/project.model";
+import {Project, spot} from "../../models/project.model";
 
 @Component({
   selector: 'app-tache-adding',
@@ -14,7 +14,7 @@ export class TacheAddingComponent implements OnInit {
   tache?: tache
   listProject?: Project[];
   formGroupTache?: FormGroup;
-
+  projectSaved?:any;
   constructor(private fireStoreService:ServiceFirestore,private formBuilder: FormBuilder,private router:Router) {
   }
 
@@ -22,6 +22,7 @@ export class TacheAddingComponent implements OnInit {
     this.formGroupTache = this.formBuilder.group({
       intitule: ["", Validators.required],
       project: [null, [Validators.required]],
+      spotStatus:[false],
       duree: [0]
     });
     this.fireStoreService.projects?.subscribe(data=>{
@@ -30,11 +31,22 @@ export class TacheAddingComponent implements OnInit {
   }
   addTache(){
     let tacheId = this.fireStoreService.afs.createId();
-    const t = {"id":tacheId,"intitule":this.formGroupTache?.value.intitule,"duree":this.formGroupTache?.value.duree};
-
-    this.fireStoreService.createTeaches(t,this.formGroupTache?.value.project).then(project=>{
-      alert('nouvelle tache: ' + ' ' + project + 'ajouté avec succès!!!');
-      this.router.navigateByUrl('/projets');
+    const t = {
+      "id":tacheId,
+      "intitule":this.formGroupTache?.value.intitule,
+      "spotStatus":false,
+      "duree":this.formGroupTache?.value.duree
+    };
+    this.fireStoreService.createTeaches(t,this.formGroupTache?.value.project).then(tache=>{
+     this.projectSaved = tache;
     });
+    setTimeout(function (){
+      alert('nouvelle tache  ajouté avec succès!!!');
+    },2000)
+    this.router.navigate(['projets']);
+  }
+
+  onCancel() {
+    this.router.navigate(['projets']);
   }
 }
